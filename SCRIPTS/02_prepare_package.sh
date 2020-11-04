@@ -382,6 +382,8 @@ cp -f ../PATCH/new/script/chinadnslist package/base-files/files/usr/bin/chinadns
 sed -i 's/16384/65536/g' package/kernel/linux/files/sysctl-nf-conntrack.conf
 #删除已有配置
 rm -rf .config
+#预配置一些插件
+cp -rf ../PATCH/files ./files
 #授予权限
 chmod -R 755 ./
 
