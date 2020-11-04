@@ -2,7 +2,7 @@ bind_host: 0.0.0.0
 bind_port: 3000
 users:
 - name: root
-  password: $2y$10$tzwWvyNT8CFcgduXIck9Q.WLsm1kTftkdEF9qECXELDzwP.fY3Kc.
+  password: $2y$10$8GfLmnbQpS883RMTpGN66.TbyavsPmElcy2aR6vec7xL0YOG.gx52
 http_proxy: ""
 language: ""
 rlimit_nofile: 0
