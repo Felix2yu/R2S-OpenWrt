@@ -1,7 +1,8 @@
 #!/bin/bash
 clear
 
-wget -O- https://github.com/project-openwrt/openwrt/commit/d8df86130d172b3ce262d2744e2ddd2a6eed5f50.patch | patch -p1
+#wget -O- https://github.com/project-openwrt/openwrt/commit/d8df86130d172b3ce262d2744e2ddd2a6eed5f50.patch | patch -p1
+svn co https://github.com/project-openwrt/openwrt/branches/master/package/ctcgfw/r8152 package/new/r8152
 sed -i '/rtl8152/d' ./target/linux/rockchip/image/armv8.mk
 
 notExce(){ 
@@ -270,6 +271,8 @@ svn co https://github.com/openwrt/packages/trunk/utils/runc feeds/packages/utils
 ln -sf ../../../feeds/packages/utils/runc ./package/feeds/packages/runc
 svn co https://github.com/openwrt/packages/trunk/utils/yq feeds/packages/utils/yq
 ln -sf ../../../feeds/packages/utils/yq ./package/feeds/packages/yq
+rm -rf ./feeds/packages/utils/lvm2
+svn co https://github.com/openwrt/packages/trunk/utils/lvm2 feeds/packages/utils/lvm2
 #补全部分依赖（实际上并不会用到
 svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/utils/fuse package/utils/fuse
 svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/network/services/samba36 package/network/services/samba36
