@@ -50,21 +50,23 @@ patch -p1 < ../PATCH/new/main/0001-tools-add-upx-ucl-support.patch
 sed -i 's,SNAPSHOT,,g' include/version.mk
 sed -i 's,snapshots,,g' package/base-files/image-config.in
 #使用O3级别的优化
-sed -i 's/Os/O2/g' include/target.mk
-sed -i 's/O2/O2/g' ./rules.mk
+sed -i 's/Os/O2 -fno-reorder-blocks -fno-tree-ch -fno-caller-saves/g' include/target.mk
+sed -i 's/O2/O2 -fno-reorder-blocks -fno-tree-ch -fno-caller-saves/g' ./rules.mk
 #更新feed
 ./scripts/feeds update -a && ./scripts/feeds install -a
 #RNGD
 sed -i 's/-f/-f -i/g' feeds/packages/utils/rng-tools/files/rngd.init
 #rc.common
-rm -rf ./package/base-files/files/etc/rc.common
-cp -f ../PATCH/duplicate/rc.common ./package/base-files/files/etc/rc.common
+#rm -rf ./package/base-files/files/etc/rc.common
+#cp -f ../PATCH/duplicate/rc.common ./package/base-files/files/etc/rc.common
 #irqbalance
 #sed -i 's/0/1/g' feeds/packages/utils/irqbalance/files/irqbalance.config
 
 ##必要的patch
 #patch i2c0
 cp -f ../PATCH/new/main/998-rockchip-enable-i2c0-on-NanoPi-R2S.patch ./target/linux/rockchip/patches-5.4/998-rockchip-enable-i2c0-on-NanoPi-R2S.patch
+#3328 add idle
+wget -P target/linux/rockchip/patches-5.4 https://github.com/project-openwrt/openwrt/raw/master/target/linux/rockchip/patches-5.4/005-arm64-dts-rockchip-Add-RK3328-idle-state.patch
 #luci network
 patch -p1 < ../PATCH/new/main/luci_network-add-packet-steering.patch
 #patch jsonc
@@ -164,7 +166,8 @@ cp -rf ../PATCH/duplicate/luci-app-control-weburl ./package/new/luci-app-control
 svn co https://github.com/project-openwrt/openwrt/branches/master/package/lean/autocore package/lean/autocore
 svn co https://github.com/project-openwrt/openwrt/branches/master/package/lean/coremark package/lean/coremark
 #迅雷快鸟
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-xlnetacc package/lean/luci-app-xlnetacc
+#svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-xlnetacc package/lean/luci-app-xlnetacc
+git clone https://github.com/garypang13/luci-app-xlnetacc package/lean/luci-app-xlnetacc
 #DDNS
 rm -rf ./feeds/packages/net/ddns-scripts
 rm -rf ./feeds/luci/applications/luci-app-ddns
