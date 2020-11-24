@@ -68,6 +68,7 @@ jobs:
       run: |
         cd openwrt
         mv ../SEED/config_docker.seed .config
+        make dirclean
         make defconfig
         chmod -R 755 ./
     - name: Make Download
