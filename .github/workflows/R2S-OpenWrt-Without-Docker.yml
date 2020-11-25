@@ -12,6 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     if: github.event.repository.owner.id == github.event.sender.id
+    
     steps:
     - name: Clone Repository
       uses: actions/checkout@v1
@@ -68,7 +69,6 @@ jobs:
       run: |
         cd openwrt
         mv ../SEED/config_no_docker.seed .config
-        make dirclean
         make defconfig
         chmod -R 755 ./
     - name: Make Download
