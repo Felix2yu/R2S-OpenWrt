@@ -192,9 +192,9 @@ sed -i 's,default n,default y,g' package/lean/luci-app-vssr/Makefile
 sed -i '/V2ray:v2ray/d' package/lean/luci-app-vssr/Makefile
 #SSRP
 svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/lean/luci-app-ssr-plus
-pushd package/lean
-wget -qO - https://patch-diff.githubusercontent.com/raw/fw876/helloworld/pull/265.patch | patch -p1
-popd
+#pushd package/lean
+#wget -qO - https://patch-diff.githubusercontent.com/raw/fw876/helloworld/pull/265.patch | patch -p1
+#popd
 #svn co https://github.com/project-openwrt/openwrt/trunk/package/lean/luci-app-ssr-plus package/lean/luci-app-ssr-plus
 sed -i 's,default n,default y,g' package/lean/luci-app-ssr-plus/Makefile
 sed -i '/V2ray:v2ray/d' package/lean/luci-app-ssr-plus/Makefile
@@ -295,6 +295,8 @@ svn co https://github.com/openwrt/packages/trunk/libs/libcap-ng feeds/packages/l
 ln -sf ../../../feeds/packages/libs/libcap-ng ./package/feeds/packages/libcap-ng
 rm -rf ./feeds/packages/utils/collectd
 svn co https://github.com/openwrt/packages/trunk/utils/collectd feeds/packages/utils/collectd
+#ipv6-helper
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/ipv6-helper package/lean/ipv6-helper
 #IPSEC
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-ipsec-vpnd package/lean/luci-app-ipsec-vpnd
 #Zerotier
