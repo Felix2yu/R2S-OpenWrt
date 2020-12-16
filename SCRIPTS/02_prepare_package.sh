@@ -219,6 +219,7 @@ svn co https://github.com/fw876/helloworld/trunk/naiveproxy package/lean/naivepr
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/luci-app-passwall package/new/luci-app-passwall
 sed -i 's,default n,default y,g' package/new/luci-app-passwall/Makefile
 sed -i '/V2ray:v2ray/d' package/new/luci-app-passwall/Makefile
+sed -i '/https_dns_proxy:https-dns-proxy/d' package/new/luci-app-passwall/Makefile
 cp -f ../PATCH/new/script/move_2_services.sh ./package/new/luci-app-passwall/move_2_services.sh
 pushd package/new/luci-app-passwall
 bash move_2_services.sh
@@ -263,7 +264,7 @@ git clone -b master --depth 1 https://github.com/destan19/OpenAppFilter.git pack
 #Docker
 svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/luci-app-dockerman
 svn co https://github.com/lisaac/luci-lib-docker/trunk/collections/luci-lib-docker package/luci-lib-docker
-svn co https://github.com/openwrt/packages/trunk/utils/docker-ce feeds/packages/utils/docker-ce
+svn co https://github.com/openwrt/packages/branches/680b76de070883471419dd787f424e825e387f00/utils/docker-ce feeds/packages/utils/docker-ce
 sed -i '/runc.installer/d' ./feeds/packages/utils/docker-ce/Makefile
 ln -sf ../../../feeds/packages/utils/docker-ce ./package/feeds/packages/docker-ce
 svn co https://github.com/openwrt/packages/trunk/utils/cgroupfs-mount feeds/packages/utils/cgroupfs-mount
