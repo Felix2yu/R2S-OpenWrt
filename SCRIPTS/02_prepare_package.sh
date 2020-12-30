@@ -101,10 +101,13 @@ rm -rf ./package/system/compressed-memory
 cp -rf ../NoTengoBattery/package/system/compressed-memory ./package/system/compressed-memory
 #更换cryptodev-linux
 rm -rf ./package/kernel/cryptodev-linux
-svn co https://github.com/project-openwrt/openwrt/trunk/package/kernel/cryptodev-linux package/kernel/cryptodev-linux
+svn co https://github.com/project-openwrt/openwrt/branches/master/package/kernel/cryptodev-linux package/kernel/cryptodev-linux
 #降级openssl（解决性能问题
 rm -rf ./package/libs/openssl
 svn co -r 90110 https://github.com/openwrt/openwrt/trunk/package/libs/openssl package/libs/openssl
+#更换htop
+rm -rf ./feeds/packages/admin/htop
+svn co https://github.com/openwrt/packages/trunk/admin/htop feeds/packages/admin/htop
 #更换lzo
 svn co https://github.com/openwrt/packages/trunk/libs/lzo feeds/packages/libs/lzo
 ln -sf ../../../feeds/packages/libs/lzo ./package/feeds/packages/lzo
@@ -135,6 +138,29 @@ svn co https://github.com/openwrt/packages/trunk/devel/gcc feeds/packages/devel/
 #更换Golang版本
 rm -rf ./feeds/packages/lang/golang
 svn co https://github.com/openwrt/packages/trunk/lang/golang feeds/packages/lang/golang
+#python
+svn co https://github.com/openwrt/packages/trunk/lang/python/python-cached-property feeds/packages/lang/python/python-cached-property
+ln -sf ../../../feeds/packages/lang/python/python-cached-property ./package/feeds/packages/python-cached-property
+svn co https://github.com/openwrt/packages/trunk/lang/python/python-distro feeds/packages/lang/python/python-distro
+ln -sf ../../../feeds/packages/lang/python/python-distro ./package/feeds/packages/python-distro
+svn co https://github.com/openwrt/packages/trunk/lang/python/python-docopt feeds/packages/lang/python/python-docopt
+ln -sf ../../../feeds/packages/lang/python/python-docopt ./package/feeds/packages/python-docopt
+svn co https://github.com/openwrt/packages/trunk/lang/python/python-docker feeds/packages/lang/python/python-docker
+ln -sf ../../../feeds/packages/lang/python/python-docker ./package/feeds/packages/python-docker
+svn co https://github.com/openwrt/packages/trunk/lang/python/python-dockerpty feeds/packages/lang/python/python-dockerpty
+ln -sf ../../../feeds/packages/lang/python/python-dockerpty ./package/feeds/packages/python-dockerpty
+svn co https://github.com/openwrt/packages/trunk/lang/python/python-dotenv feeds/packages/lang/python/python-dotenv
+ln -sf ../../../feeds/packages/lang/python/python-dotenv ./package/feeds/packages/python-dotenv
+svn co https://github.com/openwrt/packages/trunk/lang/python/python-jsonschema feeds/packages/lang/python/python-jsonschema
+ln -sf ../../../feeds/packages/lang/python/python-jsonschema ./package/feeds/packages/python-jsonschema
+svn co https://github.com/openwrt/packages/trunk/lang/python/python-texttable feeds/packages/lang/python/python-texttable
+ln -sf ../../../feeds/packages/lang/python/python-texttable ./package/feeds/packages/python-texttable
+svn co https://github.com/openwrt/packages/trunk/lang/python/python-websocket-client feeds/packages/lang/python/python-websocket-client
+ln -sf ../../../feeds/packages/lang/python/python-websocket-client ./package/feeds/packages/python-websocket-client
+svn co https://github.com/openwrt/packages/trunk/lang/python/python-paramiko feeds/packages/lang/python/python-paramiko
+ln -sf ../../../feeds/packages/lang/python/python-paramiko ./package/feeds/packages/python-paramiko
+svn co https://github.com/openwrt/packages/trunk/lang/python/python-pynacl feeds/packages/lang/python/python-pynacl
+ln -sf ../../../feeds/packages/lang/python/python-pynacl ./package/feeds/packages/python-pynacl
 #beardropper
 git clone --depth 1 https://github.com/NateLol/luci-app-beardropper.git package/luci-app-beardropper
 sed -i 's/"luci.fs"/"luci.sys".net/g' package/luci-app-beardropper/luasrc/model/cbi/beardropper/setting.lua
@@ -196,14 +222,16 @@ sed -i '/V2ray:v2ray/d' package/lean/luci-app-vssr/Makefile
 sed -i 's,ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305,ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256,g' package/lean/luci-app-vssr/root/usr/share/vssr/genconfig_trojan.lua
 sed -i 's,TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256,TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256,g' package/lean/luci-app-vssr/root/usr/share/vssr/genconfig_trojan.lua
 #SSRP
-svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/lean/luci-app-ssr-plus
+#svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/lean/luci-app-ssr-plus
+svn co https://github.com/Mattraks/helloworld/branches/Preview/luci-app-ssr-plus package/lean/luci-app-ssr-plus
+rm -rf ./package/lean/luci-app-ssr-plus/po/zh_Hans
 pushd package/lean
 #wget -qO - https://patch-diff.githubusercontent.com/raw/fw876/helloworld/pull/271.patch | patch -p1
 popd
 sed -i 's,default n,default y,g' package/lean/luci-app-ssr-plus/Makefile
 sed -i '/V2ray:v2ray/d' package/lean/luci-app-ssr-plus/Makefile
-sed -i 's,ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305,ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256,g' package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/gentrojanconfig.lua
-sed -i 's,TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256,TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256,g' package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/gentrojanconfig.lua
+#sed -i 's,ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305,ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256,g' package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/gentrojanconfig.lua
+#sed -i 's,TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256,TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256,g' package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/gentrojanconfig.lua
 #SSRP依赖
 rm -rf ./feeds/packages/net/kcptun
 rm -rf ./feeds/packages/net/shadowsocks-libev
@@ -219,7 +247,7 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/ipt2socks package
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/simple-obfs package/lean/simple-obfs
 svn co https://github.com/coolsnowwolf/packages/trunk/net/shadowsocks-libev package/lean/shadowsocks-libev
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/trojan package/lean/trojan
-svn co https://github.com/project-openwrt/openwrt/trunk/package/lean/tcpping package/lean/tcpping
+svn co https://github.com/project-openwrt/openwrt/branches/master/package/lean/tcpping package/lean/tcpping
 svn co https://github.com/fw876/helloworld/trunk/naiveproxy package/lean/naiveproxy
 #PASSWALL
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/luci-app-passwall package/new/luci-app-passwall
@@ -272,10 +300,14 @@ sed -i 's,include ../..,include $(TOPDIR)/feeds/luci,g' ./package/new/luci-app-s
 git clone -b master --depth 1 https://github.com/destan19/OpenAppFilter.git package/new/OpenAppFilter
 #Docker
 svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/luci-app-dockerman
+sed -i 's/+docker-ce/+docker \\\n\t+dockerd/g' ./package/luci-app-dockerman/Makefile
 svn co https://github.com/lisaac/luci-lib-docker/trunk/collections/luci-lib-docker package/luci-lib-docker
-svn co https://github.com/coolsnowwolf/packages/trunk/utils/docker-ce feeds/packages/utils/docker-ce
-sed -i '/runc.installer/d' ./feeds/packages/utils/docker-ce/Makefile
-ln -sf ../../../feeds/packages/utils/docker-ce ./package/feeds/packages/docker-ce
+svn co https://github.com/openwrt/packages/trunk/utils/docker-compose feeds/packages/utils/docker-compose
+ln -sf ../../../feeds/packages/utils/docker-compose ./package/feeds/packages/docker-compose
+svn co https://github.com/openwrt/packages/trunk/utils/docker feeds/packages/utils/docker
+ln -sf ../../../feeds/packages/utils/docker ./package/feeds/packages/docker
+svn co https://github.com/openwrt/packages/trunk/utils/dockerd feeds/packages/utils/dockerd
+ln -sf ../../../feeds/packages/utils/dockerd ./package/feeds/packages/dockerd
 svn co https://github.com/openwrt/packages/trunk/utils/cgroupfs-mount feeds/packages/utils/cgroupfs-mount
 ln -sf ../../../feeds/packages/utils/cgroupfs-mount ./package/feeds/packages/cgroupfs-mount
 svn co https://github.com/openwrt/packages/trunk/utils/containerd feeds/packages/utils/containerd
