@@ -209,7 +209,11 @@ git clone -b master --depth 1 https://github.com/jerrykuku/luci-app-argon-config
 git clone -b master --depth 1 https://github.com/garypang13/luci-theme-edge.git package/new/luci-theme-edge
 #AdGuard
 cp -rf ../openwrt-lienol/package/diy/luci-app-adguardhome ./package/new/luci-app-adguardhome
-cp -rf ../openwrt-lienol/package/diy/adguardhome ./package/new/adguardhome
+svn co https://github.com/openwrt/packages/trunk/net/adguardhome feeds/packages/net/adguardhome
+ln -sf ../../../feeds/packages/net/adguardhome ./package/feeds/packages/adguardhome
+svn co https://github.com/openwrt/packages/trunk/devel/packr feeds/packages/devel/packr
+ln -sf ../../../feeds/packages/devel/packr ./package/feeds/packages/packr
+#cp -rf ../openwrt-lienol/package/diy/adguardhome ./package/new/adguardhome
 #svn co https://github.com/project-openwrt/openwrt/branches/openwrt-19.07/package/ntlf9t/AdGuardHome package/new/AdGuardHome
 #ChinaDNS
 git clone -b luci --depth 1 https://github.com/pexcn/openwrt-chinadns-ng.git package/new/luci-app-chinadns-ng
@@ -338,6 +342,8 @@ svn co https://github.com/openwrt/packages/trunk/libs/libcap-ng feeds/packages/l
 ln -sf ../../../feeds/packages/libs/libcap-ng ./package/feeds/packages/libcap-ng
 rm -rf ./feeds/packages/utils/collectd
 svn co https://github.com/openwrt/packages/trunk/utils/collectd feeds/packages/utils/collectd
+svn co https://github.com/openwrt/packages/trunk/utils/hwdata feeds/packages/utils/hwdata
+ln -sf ../../../feeds/packages/utils/hwdata ./package/feeds/packages/hwdata
 #ipv6-helper
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/ipv6-helper package/lean/ipv6-helper
 #IPSEC
