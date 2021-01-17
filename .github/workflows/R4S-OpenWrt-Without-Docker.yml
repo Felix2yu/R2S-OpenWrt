@@ -1,10 +1,8 @@
-name: R2S-OpenWrt
+name: R4S-OpenWrt-Without-Docker
 
 on:
   schedule:
-    - cron: 0 10 * * *
-  push:
-    branches: [ master ]
+    - cron: 5 6 * * 0
   watch:
     types: started
 
@@ -86,7 +84,7 @@ jobs:
     - name: Prepare Mixedwrt
       run: |
         sudo chown -R runner:runner /home/runner/work/R2S-R4S-OpenWrt
-        cp -r ./SCRIPTS/R2S/. ./SCRIPTS/
+        cp -r ./SCRIPTS/R4S/. ./SCRIPTS/
         cp -r ./SCRIPTS/. ./
         /bin/bash 01_get_ready.sh
     - name: Prepare Package
@@ -109,7 +107,7 @@ jobs:
     - name: Make Config
       run: |
         cd openwrt
-        mv ../SEED/R2S/config.seed .config
+        mv ../SEED/R4S/config.seed .config
         make defconfig
         chmod -R 755 ./
     - name: Make Download
@@ -145,7 +143,7 @@ jobs:
         cd openwrt
         cd ..
         zip -r artifact.zip ./artifact/
-        release_tag="R2S-GC404-$(date +%Y-%m-%d)"
+        release_tag="R4S-GC404-$(date +%Y-%m-%d)"
         echo "##[set-output name=release_tag;]$release_tag"
     - name: Upload Artifact
       uses: actions/upload-artifact@main
