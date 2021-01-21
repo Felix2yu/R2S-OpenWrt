@@ -31,7 +31,6 @@ CONFIG_PACKAGE_arm-trusted-firmware-rockchip=y
 CONFIG_PACKAGE_autocore-arm=y
 CONFIG_PACKAGE_ipv6helper=y
 CONFIG_PACKAGE_cgi-io=y
-CONFIG_PACKAGE_chinadns-ng=y
 CONFIG_PACKAGE_coremark=y
 CONFIG_PACKAGE_ethtool=y
 CONFIG_PACKAGE_adguardhome=y
@@ -73,12 +72,12 @@ CONFIG_PACKAGE_luci-app-argon-config=y
 CONFIG_PACKAGE_luci-app-arpbind=y
 CONFIG_PACKAGE_luci-app-autoreboot=y
 CONFIG_PACKAGE_luci-app-beardropper=y
-CONFIG_PACKAGE_luci-app-chinadns-ng=y
+CONFIG_PACKAGE_luci-app-moschinadns=y
 CONFIG_PACKAGE_luci-app-cpufreq=y
 CONFIG_PACKAGE_luci-app-cpulimit=y
 CONFIG_PACKAGE_luci-app-ddns=y
 CONFIG_PACKAGE_luci-app-firewall=y
-CONFIG_PACKAGE_luci-app-jd-dailybonus=y
+CONFIG_PACKAGE_luci-app-jd-dailybonus=n
 #CONFIG_PACKAGE_luci-app-oaf=y
 CONFIG_PACKAGE_luci-app-oled=y
 CONFIG_PACKAGE_luci-app-openclash=y
@@ -88,14 +87,14 @@ CONFIG_PACKAGE_luci-app-serverchan=y
 CONFIG_PACKAGE_luci-app-smartdns=y
 CONFIG_PACKAGE_luci-app-sqm=y
 CONFIG_PACKAGE_luci-app-vlmcsd=y
-CONFIG_PACKAGE_luci-app-ssr-plus=y
+CONFIG_PACKAGE_luci-app-ssr-plus=n
 CONFIG_PACKAGE_luci-app-passwall=y
-CONFIG_PACKAGE_luci-app-unblockneteasemusic=y
+CONFIG_PACKAGE_luci-app-unblockneteasemusic=n
 CONFIG_PACKAGE_luci-app-upnp=y
 CONFIG_PACKAGE_luci-app-usb-printer=y
 CONFIG_PACKAGE_luci-app-wol=y
 CONFIG_PACKAGE_luci-app-wrtbwmon=y
-CONFIG_PACKAGE_luci-app-xlnetacc=y
+CONFIG_PACKAGE_luci-app-xlnetacc=n
 CONFIG_PACKAGE_luci-base=y
 CONFIG_PACKAGE_luci-compat=y
 CONFIG_PACKAGE_luci-lib-ip=y
@@ -143,7 +142,7 @@ CONFIG_LIBCURL_OPENSSL=y
 # CONFIG_LIBCURL_GNUTLS is not set
 # CONFIG_LIBCURL_NOSSL is not set
 
-### DOCKER ###£® µ—È–‘,”––Ë“™µƒ…æµÙœ¬√Ê»˝––µƒ◊¢ Õ)
+### DOCKER ###ÔºàÂÆûÈ™åÊÄß,ÊúâÈúÄË¶ÅÁöÑÂà†Êéâ‰∏ãÈù¢‰∏âË°åÁöÑÊ≥®Èáä)
 #CONFIG_PACKAGE_luci-app-dockerman=y
 #CONFIG_PACKAGE_luci-app-dockerman_INCLUDE_docker_ce=y
 #CONFIG_PACKAGE_luci-app-dockerman_INCLUDE_ttyd=n
@@ -175,3 +174,5 @@ CONFIG_PACKAGE_kmod-crypto-sha1=y
 CONFIG_PACKAGE_kmod-crypto-sha256=y
 CONFIG_PACKAGE_kmod-crypto-wq=y
 CONFIG_PACKAGE_kmod-cryptodev=y
+
+CONFIG_PACKAGE_zabbix-agent=y

@@ -15,10 +15,10 @@ diff -rNEZbwBdu3 a/src/option.c b/src/option.c
 --- a/src/option.c	2020-04-09 00:32:53.000000000 +0800
 +++ b/src/option.c	2020-06-05 23:06:29.880350271 +0800
 @@ -167,6 +167,7 @@
- #define LOPT_IGNORE_CLID   358
  #define LOPT_SINGLE_PORT   359
  #define LOPT_SCRIPT_TIME   360
-+#define LOPT_FILTER_AAAA   361
+ #define LOPT_PXE_VENDOR    361
++#define LOPT_FILTER_AAAA   362
   
  #ifdef HAVE_GETOPT_LONG
  static const struct option opts[] =  
