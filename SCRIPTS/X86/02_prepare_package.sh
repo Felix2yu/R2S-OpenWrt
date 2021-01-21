@@ -22,17 +22,14 @@ patch -p1 < ../PATCH/new/package/luci-add-filter-aaaa-option.patch
 cp -f ../PATCH/new/package/900-add-filter-aaaa-option.patch ./package/network/services/dnsmasq/patches/900-add-filter-aaaa-option.patch
 rm -rf ./package/base-files/files/etc/init.d/boot
 wget -P package/base-files/files/etc/init.d https://github.com/project-openwrt/openwrt/raw/openwrt-18.06-k5.4/package/base-files/files/etc/init.d/boot
-#（从这行开始接下来5个操作全是和fullcone相关的，不需要可以一并注释掉，但极不建议
-#回滚FW3
-rm -rf ./package/network/config/firewall
-svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/network/config/firewall package/network/config/firewall
+#（从这行开始接下来4个操作全是和fullcone相关的，不需要可以一并注释掉，但极不建议
 # Patch Kernel 以解决fullcone冲突
 wget -P target/linux/generic/hack-4.14/ https://github.com/coolsnowwolf/lede/raw/master/target/linux/generic/hack-4.14/952-net-conntrack-events-support-multiple-registrant.patch
 wget -P target/linux/generic/hack-4.14/ https://github.com/coolsnowwolf/lede/raw/master/target/linux/generic/hack-4.14/202-reduce_module_size.patch
 wget -P target/linux/x86/patches-4.14/ https://github.com/coolsnowwolf/lede/raw/master/target/linux/x86/patches-4.14/900-x86-Enable-fast-strings-on-Intel-if-BIOS-hasn-t-already.patch
 #Patch FireWall 以增添fullcone功能 
 mkdir package/network/config/firewall/patches
-wget -P package/network/config/firewall/patches/ https://github.com/LGA1150/fullconenat-fw3-patch/raw/master/fullconenat.patch
+wget -P package/network/config/firewall/patches/ https://github.com/project-openwrt/openwrt/raw/master/package/network/config/firewall/patches/fullconenat.patch
 # Patch LuCI 以增添fullcone开关
 patch -p1 < ../PATCH/new/package/luci-app-firewall_add_fullcone.patch
 #pushd feeds/luci
