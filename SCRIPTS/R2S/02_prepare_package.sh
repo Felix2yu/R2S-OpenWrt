@@ -18,6 +18,7 @@ sed -i 's/O2/O2/g' ./rules.mk
 ./scripts/feeds update -a && ./scripts/feeds install -a
 
 ##R2S相关
+wget -P target/linux/generic/pending-5.4 https://github.com/project-openwrt/openwrt/raw/master/target/linux/generic/pending-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
 #3328 add idle
 wget -P target/linux/rockchip/patches-5.4 https://github.com/project-openwrt/openwrt/raw/master/target/linux/rockchip/patches-5.4/005-arm64-dts-rockchip-Add-RK3328-idle-state.patch
 #IRQ
@@ -42,7 +43,7 @@ sed -i '/rtl8152/d' ./target/linux/rockchip/image/armv8.mk
 #CONFIG_CRYPTO_RNG_DEFAULT=y
 #' >> ./target/linux/rockchip/armv8/config-5.4
 sed -i '/CONFIG_SLUB/d' ./target/linux/rockchip/armv8/config-5.4
-sed -i '/CONFIG_PROC/d' ./target/linux/rockchip/armv8/config-5.4
+sed -i '/CONFIG_PROC_[^V].*/d' ./target/linux/rockchip/armv8/config-5.4
 #patch i2c0（服务于OLED，可选
 cp -f ../PATCH/new/main/998-rockchip-enable-i2c0-on-NanoPi-R2S.patch ./target/linux/rockchip/patches-5.4/998-rockchip-enable-i2c0-on-NanoPi-R2S.patch
 #OC（提升主频，可选
@@ -255,6 +256,7 @@ svn co https://github.com/coolsnowwolf/packages/trunk/net/shadowsocks-libev pack
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/trojan package/lean/trojan
 svn co https://github.com/project-openwrt/openwrt/branches/master/package/lean/tcpping package/lean/tcpping
 svn co https://github.com/fw876/helloworld/trunk/naiveproxy package/lean/naiveproxy
+svn co https://github.com/fw876/helloworld/trunk/ipt2socks-alt package/lean/ipt2socks-alt
 #PASSWALL
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/luci-app-passwall package/new/luci-app-passwall
 sed -i 's,default n,default y,g' package/new/luci-app-passwall/Makefile

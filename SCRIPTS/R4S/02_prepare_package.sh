@@ -11,7 +11,7 @@ rm -rf ./package/boot/uboot-rockchip
 svn co https://github.com/project-openwrt/openwrt/branches/master/package/boot/uboot-rockchip package/boot/uboot-rockchip
 
 #overclock 1.8/2.2
-rm -rf ./target/linux/rockchip/patches-5.4/991-rockchip-rk3399-overclock-to-2.2-1.8-GHz-for-NanoPi4.patch
+rm -rf ./target/linux/rockchip/patches-5.4/992-rockchip-rk3399-overclock-to-2.2-1.8-GHz-for-NanoPi4.patch
 cp -f ../PATCH/new/main/991-rockchip-rk3399-overclock-to-2.2-1.8-GHz-for-NanoPi4.patch ./target/linux/rockchip/patches-5.4/991-rockchip-rk3399-overclock-to-2.2-1.8-GHz-for-NanoPi4.patch
 
 ##准备工作
@@ -23,7 +23,6 @@ patch -p1 < ../PATCH/new/main/0001-tools-add-upx-ucl-support.patch
 #remove annoying snapshot tag
 sed -i 's,SNAPSHOT,,g' include/version.mk
 sed -i 's,snapshots,,g' package/base-files/image-config.in
-sed -i 's, (傻逼商家售卖本固件必死),,g' target/linux/rockchip/patches-5.4/200-rockchip-add-support-for-NanoPi-R4S.patch
 #使用O2级别的优化
 sed -i 's/Os/O2/g' include/target.mk
 sed -i 's,-mcpu=generic,-march=armv8-a+crypto+crc -mcpu=cortex-a73.cortex-a53+crypto+crc -mtune=cortex-a73.cortex-a53,g' include/target.mk
@@ -32,6 +31,9 @@ sed -i 's/O2/O2/g' ./rules.mk
 ./scripts/feeds update -a && ./scripts/feeds install -a
 
 ##必要的patch
+cp -f ../PATCH/new/main/realtek_c_backport.patch ./target/linux/generic/backport-5.4/301-realtek_c_backport.patch
+cp -f ../PATCH/new/main/st_gmac_backport.patch ./target/linux/generic/backport-5.4/302-st_gmac_backport.patch
+wget -P target/linux/generic/pending-5.4 https://github.com/project-openwrt/openwrt/raw/master/target/linux/generic/pending-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
 #luci network
 patch -p1 < ../PATCH/new/main/luci_network-add-packet-steering.patch
 #patch jsonc
@@ -74,7 +76,7 @@ cp -f ../PATCH/duplicate/shortcut-fe ./package/base-files/files/etc/init.d
 sed -i '/CRYPTO_DEV_ROCKCHIP/d' ./target/linux/rockchip/armv8/config-5.4
 sed -i '/HW_RANDOM_ROCKCHIP/d' ./target/linux/rockchip/armv8/config-5.4
 sed -i '/CONFIG_SLUB/d' ./target/linux/rockchip/armv8/config-5.4
-sed -i '/CONFIG_PROC/d' ./target/linux/rockchip/armv8/config-5.4
+sed -i '/CONFIG_PROC_[^V].*/d' ./target/linux/rockchip/armv8/config-5.4
 echo '
 CONFIG_CRYPTO_DEV_ROCKCHIP=y
 CONFIG_HW_RANDOM_ROCKCHIP=y
@@ -247,6 +249,7 @@ svn co https://github.com/coolsnowwolf/packages/trunk/net/shadowsocks-libev pack
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/trojan package/lean/trojan
 svn co https://github.com/project-openwrt/openwrt/branches/master/package/lean/tcpping package/lean/tcpping
 svn co https://github.com/fw876/helloworld/trunk/naiveproxy package/lean/naiveproxy
+svn co https://github.com/fw876/helloworld/trunk/ipt2socks-alt package/lean/ipt2socks-alt
 #PASSWALL
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/luci-app-passwall package/new/luci-app-passwall
 sed -i 's,default n,default y,g' package/new/luci-app-passwall/Makefile
