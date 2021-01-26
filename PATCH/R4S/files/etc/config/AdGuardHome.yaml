@@ -29,6 +29,7 @@ dns:
   refuse_any: true
   upstream_dns:
   - 127.0.0.1:6052
+  - '[/awsglobalaccelerator.com/]127.0.0.1:6050'
   upstream_dns_file: ""
   bootstrap_dns:
   - 127.0.0.1:6052
