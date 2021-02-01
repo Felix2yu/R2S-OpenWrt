@@ -198,6 +198,9 @@ pushd package/lean
 popd
 sed -i 's,default n,default y,g' package/lean/luci-app-ssr-plus/Makefile
 sed -i '/V2ray:v2ray/d' package/lean/luci-app-ssr-plus/Makefile
+sed -i '/result.encrypt_method/a\result.fast_open = "1"' package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/subscribe.lua
+sed -i 's,ispip.clang.cn/all_cn.txt,cdn.jsdelivr.net/gh/QiuSimons/Chnroute/dist/chnroute/chnroute.txt,g' package/lean/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
+sed -i 's,YW5vbnltb3Vz/domain-list-community@release/gfwlist.txt,v2ray-rules-dat@release/gfw.txt,g' package/lean/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
 #SSRP依赖
 rm -rf ./feeds/packages/net/kcptun
 rm -rf ./feeds/packages/net/shadowsocks-libev
@@ -334,9 +337,11 @@ rm -f ./feeds/luci/applications/luci-app-frps
 rm -f ./feeds/luci/applications/luci-app-frpc
 rm -rf ./feeds/packages/net/frp
 rm -f ./package/feeds/packages/frp
-git clone --depth 1 https://github.com/lwz322/luci-app-frps.git package/lean/luci-app-frps
-git clone --depth 1 https://github.com/kuoruan/luci-app-frpc.git package/lean/luci-app-frpc
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/frp package/feeds/packages/frp
+#git clone --depth 1 https://github.com/lwz322/luci-app-frps.git package/lean/luci-app-frps
+#git clone --depth 1 https://github.com/kuoruan/luci-app-frpc.git package/lean/luci-app-frpc
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-frps package/lean/luci-app-frps
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-frpc package/lean/luci-app-frpc
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/frp package/lean/frp
 #花生壳
 svn co https://github.com/teasiu/dragino2/trunk/package/teasiu/luci-app-phtunnel package/new/luci-app-phtunnel
 svn co https://github.com/QiuSimons/dragino2-teasiu/trunk/package/teasiu/luci-app-oray package/new/luci-app-oray
@@ -368,8 +373,6 @@ sed -i 's/16384/65536/g' package/kernel/linux/files/sysctl-nf-conntrack.conf
 sed -i 's/default "5"/default "0"/g' config/Config-images.in
 #预配置一些插件
 cp -rf ../PATCH/X86/files ./files
-#修复权限
-chmod -R 755 ./
 #生成默认配置及缓存
 rm -rf .config
 exit 0

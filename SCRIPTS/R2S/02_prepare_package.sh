@@ -28,8 +28,8 @@ sed -i '/set_interface_core 4 "eth1"/a\set_interface_core 1 "ff150000" "ff150000
 sed -i '/;;/i\ethtool -K eth0 rx off tx off && logger -t disable-offloading "disabed rk3328 ethernet tcp/udp offloading tx/rx"' target/linux/rockchip/armv8/base-files/etc/hotplug.d/net/40-net-smp-affinity
 #r8152新驱动（可选
 #wget -O- https://github.com/project-openwrt/openwrt/commit/d8df86130d172b3ce262d2744e2ddd2a6eed5f50.patch | patch -p1
-svn co https://github.com/project-openwrt/openwrt/branches/master/package/ctcgfw/r8152 package/new/r8152
-sed -i '/rtl8152/d' ./target/linux/rockchip/image/armv8.mk
+#svn co https://github.com/project-openwrt/openwrt/branches/master/package/ctcgfw/r8152 package/new/r8152
+#sed -i '/rtl8152/d' ./target/linux/rockchip/image/armv8.mk
 ##HW-RNG（硬件随机数，可选
 #patch -p1 < ../PATCH/new/main/Support-hardware-random-number-generator-for-RK3328.patch
 #sed -i 's/-f/-f -i/g' feeds/packages/utils/rng-tools/files/rngd.init
@@ -239,6 +239,9 @@ pushd package/lean
 popd
 sed -i 's,default n,default y,g' package/lean/luci-app-ssr-plus/Makefile
 sed -i '/V2ray:v2ray/d' package/lean/luci-app-ssr-plus/Makefile
+sed -i '/result.encrypt_method/a\result.fast_open = "1"' package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/subscribe.lua
+sed -i 's,ispip.clang.cn/all_cn.txt,cdn.jsdelivr.net/gh/QiuSimons/Chnroute/dist/chnroute/chnroute.txt,g' package/lean/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
+sed -i 's,YW5vbnltb3Vz/domain-list-community@release/gfwlist.txt,v2ray-rules-dat@release/gfw.txt,g' package/lean/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
 #SSRP依赖
 rm -rf ./feeds/packages/net/kcptun
 rm -rf ./feeds/packages/net/shadowsocks-libev
@@ -375,9 +378,11 @@ rm -f ./feeds/luci/applications/luci-app-frps
 rm -f ./feeds/luci/applications/luci-app-frpc
 rm -rf ./feeds/packages/net/frp
 rm -f ./package/feeds/packages/frp
-git clone --depth 1 https://github.com/lwz322/luci-app-frps.git package/lean/luci-app-frps
-git clone --depth 1 https://github.com/kuoruan/luci-app-frpc.git package/lean/luci-app-frpc
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/frp package/feeds/packages/frp
+#git clone --depth 1 https://github.com/lwz322/luci-app-frps.git package/lean/luci-app-frps
+#git clone --depth 1 https://github.com/kuoruan/luci-app-frpc.git package/lean/luci-app-frpc
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-frps package/lean/luci-app-frps
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-frpc package/lean/luci-app-frpc
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/frp package/lean/frp
 #花生壳
 svn co https://github.com/teasiu/dragino2/trunk/package/teasiu/luci-app-phtunnel package/new/luci-app-phtunnel
 svn co https://github.com/QiuSimons/dragino2-teasiu/trunk/package/teasiu/luci-app-oray package/new/luci-app-oray
@@ -428,7 +433,5 @@ sed -i 's/16384/65536/g' package/kernel/linux/files/sysctl-nf-conntrack.conf
 rm -rf .config
 #预配置一些插件
 cp -rf ../PATCH/R2S/files ./files
-#授予权限
-chmod -R 755 ./
 
 exit 0
