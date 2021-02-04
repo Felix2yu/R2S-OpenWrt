@@ -238,6 +238,7 @@ pushd package/lean
 #wget -qO - https://patch-diff.githubusercontent.com/raw/fw876/helloworld/pull/271.patch | patch -p1
 popd
 sed -i 's,default n,default y,g' package/lean/luci-app-ssr-plus/Makefile
+sed -i 's,Xray:xray ,Xray:xray-core ,g' package/lean/luci-app-ssr-plus/Makefile
 sed -i '/V2ray:v2ray/d' package/lean/luci-app-ssr-plus/Makefile
 sed -i '/result.encrypt_method/a\result.fast_open = "1"' package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/subscribe.lua
 sed -i 's,ispip.clang.cn/all_cn.txt,cdn.jsdelivr.net/gh/QiuSimons/Chnroute/dist/chnroute/chnroute.txt,g' package/lean/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
@@ -277,8 +278,7 @@ svn co https://github.com/xiaorouji/openwrt-passwall/trunk/trojan-go package/new
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/brook package/new/brook
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/trojan-plus package/new/trojan-plus
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/ssocks package/new/ssocks
-svn co https://github.com/xiaorouji/openwrt-passwall/trunk/xray package/new/xray
-sed -i 's,default n,default y,g' package/new/xray/Makefile
+svn co https://github.com/xiaorouji/openwrt-passwall/trunk/xray-core package/new/xray-core
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/v2ray package/new/v2ray
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/v2ray-plugin package/new/v2ray-plugin
 #luci-app-cpulimit
@@ -307,7 +307,10 @@ git clone -b master --depth 1 https://github.com/vernesong/OpenClash.git package
 git clone -b master --depth 1 https://github.com/tty228/luci-app-serverchan.git package/new/luci-app-serverchan
 svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/network/utils/iputils package/network/utils/iputils
 #SmartDNS
-cp -rf ../packages-lienol/net/smartdns ./package/new/smartdns
+#cp -rf ../packages-lienol/net/smartdns ./package/new/smartdns
+mkdir package/new/smartdns
+wget -P package/new/smartdns/ https://github.com/HiGarfield/lede-17.01.4-Mod/raw/master/package/extra/smartdns/Makefile
+sed -i 's,files/etc/config,$(PKG_BUILD_DIR)/package/openwrt/files/etc/config,g' ./package/new/smartdns/Makefile
 cp -rf ../luci-lienol/applications/luci-app-smartdns ./package/new/luci-app-smartdns
 sed -i 's,include ../..,include $(TOPDIR)/feeds/luci,g' ./package/new/luci-app-smartdns/Makefile
 #上网APP过滤
