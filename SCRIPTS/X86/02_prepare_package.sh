@@ -317,6 +317,12 @@ svn co https://github.com/openwrt/packages/trunk/utils/usbutils feeds/packages/u
 ln -sf ../../../feeds/packages/utils/usbutils ./package/feeds/packages/usbutils
 svn co https://github.com/openwrt/packages/trunk/utils/hwdata feeds/packages/utils/hwdata
 ln -sf ../../../feeds/packages/utils/hwdata ./package/feeds/packages/hwdata
+rm -rf ./feeds/packages/net/dnsdist
+svn co https://github.com/openwrt/packages/trunk/net/dnsdist feeds/packages/net/dnsdist
+svn co https://github.com/openwrt/packages/trunk/libs/h2o feeds/packages/libs/h2o
+ln -sf ../../../feeds/packages/libs/h2o ./package/feeds/packages/h2o
+svn co https://github.com/openwrt/packages/trunk/libs/libwslay feeds/packages/libs/libwslay
+ln -sf ../../../feeds/packages/libs/libwslay ./package/feeds/packages/libwslay
 
 #IPSEC
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-ipsec-vpnd package/lean/luci-app-ipsec-vpnd

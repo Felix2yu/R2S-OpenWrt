@@ -13,6 +13,7 @@ svn co https://github.com/project-openwrt/openwrt/branches/master/package/boot/u
 #overclock 1.8/2.2
 rm -rf ./target/linux/rockchip/patches-5.4/992-rockchip-rk3399-overclock-to-2.2-1.8-GHz-for-NanoPi4.patch
 cp -f ../PATCH/new/main/991-rockchip-rk3399-overclock-to-2.2-1.8-GHz-for-NanoPi4.patch ./target/linux/rockchip/patches-5.4/991-rockchip-rk3399-overclock-to-2.2-1.8-GHz-for-NanoPi4.patch
+cp -f ../PATCH/new/main/213-RK3399-set-critical-CPU-temperature-for-thermal-throttling.patch ./target/linux/rockchip/patches-5.4/213-RK3399-set-critical-CPU-temperature-for-thermal-throttling.patch
 
 ##准备工作
 #使用19.07的feed源
@@ -350,6 +351,13 @@ svn co https://github.com/openwrt/packages/trunk/utils/usbutils feeds/packages/u
 ln -sf ../../../feeds/packages/utils/usbutils ./package/feeds/packages/usbutils
 svn co https://github.com/openwrt/packages/trunk/utils/hwdata feeds/packages/utils/hwdata
 ln -sf ../../../feeds/packages/utils/hwdata ./package/feeds/packages/hwdata
+rm -rf ./feeds/packages/net/dnsdist
+svn co https://github.com/openwrt/packages/trunk/net/dnsdist feeds/packages/net/dnsdist
+svn co https://github.com/openwrt/packages/trunk/libs/h2o feeds/packages/libs/h2o
+ln -sf ../../../feeds/packages/libs/h2o ./package/feeds/packages/h2o
+svn co https://github.com/openwrt/packages/trunk/libs/libwslay feeds/packages/libs/libwslay
+ln -sf ../../../feeds/packages/libs/libwslay ./package/feeds/packages/libwslay
+
 #ipv6-helper
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/ipv6-helper package/lean/ipv6-helper
 #IPSEC
