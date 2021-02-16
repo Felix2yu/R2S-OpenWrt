@@ -4,14 +4,18 @@ clear
 #使用O2级别的优化
 sed -i 's/Os/O2/g' include/target.mk
 #更新feed
-./scripts/feeds update -a && ./scripts/feeds install -a
+./scripts/feeds update -a
+./scripts/feeds install -a -f
 #irqbalance
 sed -i 's/0/1/g' feeds/packages/utils/irqbalance/files/irqbalance.config
+#remove annoying snapshot tag
+sed -i 's,-SNAPSHOT,,g' include/version.mk
+sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
 ##必要的patch
 wget -P target/linux/generic/pending-5.4 https://github.com/immortalwrt/immortalwrt/raw/master/target/linux/generic/pending-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
 #luci network
-patch -p1 < ../PATCH/new/main/luci_network-add-packet-steering.patch
+#patch -p1 < ../PATCH/new/main/luci_network-add-packet-steering.patch
 #patch jsonc
 patch -p1 < ../PATCH/new/package/use_json_object_new_int64.patch
 #patch dnsmasq
@@ -47,6 +51,8 @@ cp -f ../PATCH/duplicate/shortcut-fe ./package/base-files/files/etc/init.d
 ##获取额外package
 #（不用注释这里的任何东西，这不会对提升action的执行速度起到多大的帮助
 #（不需要的包直接修改seed就好
+#Ruby
+patch -p1 < ../PATCH/new/package/ruby.patch
 #luci-app-compressed-memory
 wget -O- https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/2840.patch | patch -p1
 mkdir ./package/new
@@ -148,8 +154,10 @@ sed -i '/result.encrypt_method/a\result.fast_open = "1"' package/lean/luci-app-s
 sed -i 's,ispip.clang.cn/all_cn.txt,cdn.jsdelivr.net/gh/QiuSimons/Chnroute/dist/chnroute/chnroute.txt,g' package/lean/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
 sed -i 's,YW5vbnltb3Vz/domain-list-community@release/gfwlist.txt,Loyalsoldier/v2ray-rules-dat@release/gfw.txt,g' package/lean/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
 #SSRP依赖
+rm -rf ./feeds/packages/net/xray-core
 rm -rf ./feeds/packages/net/kcptun
 rm -rf ./feeds/packages/net/shadowsocks-libev
+rm -rf ./feeds/packages/net/proxychains-ng
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shadowsocksr-libev package/lean/shadowsocksr-libev
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/pdnsd-alt package/lean/pdnsd
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/kcptun package/lean/kcptun
@@ -190,10 +198,10 @@ svn co https://github.com/xiaorouji/openwrt-passwall/trunk/v2ray-plugin package/
 cp -rf ../PATCH/duplicate/luci-app-cpulimit ./package/lean/luci-app-cpulimit
 svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/ntlf9t/cpulimit package/lean/cpulimit
 #订阅转换
-svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-19.07/package/ctcgfw/subconverter package/new/subconverter
-svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-19.07/package/ctcgfw/jpcre2 package/new/jpcre2
-svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-19.07/package/ctcgfw/rapidjson package/new/rapidjson
-svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-19.07/package/ctcgfw/duktape package/new/duktape
+svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/ctcgfw/subconverter package/new/subconverter
+svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/ctcgfw/jpcre2 package/new/jpcre2
+svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/ctcgfw/rapidjson package/new/rapidjson
+svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/ctcgfw/duktape package/new/duktape
 #清理内存
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-ramfree package/lean/luci-app-ramfree
 #打印机
@@ -207,28 +215,15 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-netdata 
 git clone -b master --depth 1 https://github.com/vernesong/OpenClash.git package/new/luci-app-openclash
 #SeverChan
 git clone -b master --depth 1 https://github.com/tty228/luci-app-serverchan.git package/new/luci-app-serverchan
-svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/network/utils/iputils package/network/utils/iputils
 #SmartDNS
+rm -rf ./feeds/packages/net/smartdns
 mkdir package/new/smartdns
 wget -P package/new/smartdns/ https://github.com/HiGarfield/lede-17.01.4-Mod/raw/master/package/extra/smartdns/Makefile
 sed -i 's,files/etc/config,$(PKG_BUILD_DIR)/package/openwrt/files/etc/config,g' ./package/new/smartdns/Makefile
-cp -rf ../luci-lienol/applications/luci-app-smartdns ./package/new/luci-app-smartdns
-sed -i 's,include ../..,include $(TOPDIR)/feeds/luci,g' ./package/new/luci-app-smartdns/Makefile
 #上网APP过滤
 git clone -b master --depth 1 https://github.com/destan19/OpenAppFilter.git package/new/OpenAppFilter
 #Docker
-svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/luci-app-dockerman
-sed -i 's/+docker-ce/+docker \\\n\t+dockerd/g' ./package/luci-app-dockerman/Makefile
-svn co https://github.com/lisaac/luci-lib-docker/trunk/collections/luci-lib-docker package/luci-lib-docker
-#补全部分依赖（实际上并不会用到
-svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/libs/libnetfilter-log package/libs/libnetfilter-log
-svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/libs/libnetfilter-queue package/libs/libnetfilter-queue
-svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/libs/libnetfilter-cttimeout package/libs/libnetfilter-cttimeout
-svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/libs/libnetfilter-cthelper package/libs/libnetfilter-cthelper
-svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/utils/fuse package/utils/fuse
-svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/network/services/samba36 package/network/services/samba36
-svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/libs/libconfig package/libs/libconfig
-svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/libs/libusb-compat package/libs/libusb-compat
+sed -i 's/+docker-ce/+docker \\\n\t+dockerd/g' ./feeds/luci/applications/luci-app-dockerman/Makefile
 #ipv6-helper
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/ipv6-helper package/lean/ipv6-helper
 #IPSEC
@@ -247,8 +242,8 @@ svn co https://github.com/coolsnowwolf/packages/trunk/net/miniupnpd feeds/packag
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-vlmcsd package/lean/luci-app-vlmcsd
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/vlmcsd package/lean/vlmcsd
 #frp
-rm -f ./feeds/luci/applications/luci-app-frps
-rm -f ./feeds/luci/applications/luci-app-frpc
+rm -rf ./feeds/luci/applications/luci-app-frps
+rm -rf ./feeds/luci/applications/luci-app-frpc
 rm -rf ./feeds/packages/net/frp
 rm -f ./package/feeds/packages/frp
 #git clone --depth 1 https://github.com/lwz322/luci-app-frps.git package/lean/luci-app-frps
@@ -267,6 +262,8 @@ svn co https://github.com/1715173329/tencentcloud-openwrt-plugin-ddns/trunk/tenc
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-aliddns package/new/luci-app-aliddns
 #WOL
 svn co https://github.com/sundaqiang/openwrt-packages/trunk/luci-app-services-wolplus package/new/luci-app-services-wolplus
+#凑合解决方案
+cp -rf ../PATCH/duplicate/libncursesw6 ./package/lean/libncursesw6
 
 ##最后的收尾工作
 #Lets Fuck

@@ -1,5 +1,5 @@
 #!/bin/bash
-until :
+<<'COMMENT'
 latest_release="$(curl -s https://github.com/openwrt/openwrt/releases |grep -Eo "v[0-9\.]+.tar.gz" |sed -n '/21/p' |sed -n 1p)"
 curl -LO "https://github.com/openwrt/openwrt/archive/${latest_release}"
 mkdir openwrt_back
@@ -19,7 +19,7 @@ cp -f ./openwrt_back/package/base-files/image-config.in ./openwrt_new/package/ba
 cp -rf ./openwrt_back/target/linux/* ./openwrt_new/target/linux/
 mkdir openwrt
 cp -rf ./openwrt_new/* ./openwrt/
-done
+COMMENT
 git clone --single-branch -b openwrt-21.02 https://github.com/openwrt/openwrt openwrt
 git clone -b main --depth 1 https://github.com/Lienol/openwrt.git openwrt-lienol
 git clone -b main --depth 1 https://github.com/Lienol/openwrt-packages packages-lienol
