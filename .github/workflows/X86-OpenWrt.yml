@@ -1,10 +1,8 @@
-name: R2S-OpenWrt
+name: X86-OpenWrt
 
 on:
   schedule:
-    - cron: 5 13 * * *
-  push:
-    branches: [ master ]
+    - cron: 5 6 * * 5
   watch:
     types: started
 
@@ -85,8 +83,8 @@ jobs:
         df -h
     - name: Prepare Mixedwrt
       run: |
-        sudo chown -R runner:runner /home/runner/work/R2S-OpenWrt
-        cp -r ./SCRIPTS/R2S/. ./SCRIPTS/
+        sudo chown -R runner:runner /home/runner/work/R2S-R4S-X86-OpenWrt
+        cp -r ./SCRIPTS/X86/. ./SCRIPTS/
         cp -r ./SCRIPTS/. ./
         /bin/bash 01_get_ready.sh
     - name: Prepare Package
@@ -110,7 +108,7 @@ jobs:
     - name: Make Config
       run: |
         cd openwrt
-        mv ../SEED/R2S/config.seed .config
+        mv ../SEED/X86/config.seed .config
         make defconfig
 
     - name: Smart chmod
@@ -143,7 +141,7 @@ jobs:
     - name: Cleaning
       run: |
         df -h
-        cd openwrt/bin/targets/rockchip/armv8
+        cd openwrt/bin/targets/x86/64
         /bin/bash ../../../../../SCRIPTS/06_cleaning.sh
     - name: Print Disk Space After
       run: df -h
@@ -152,11 +150,11 @@ jobs:
       run: |
         rm -rf ./artifact/
         mkdir -p ./artifact/
-        cp openwrt/bin/targets/rockchip/armv8/*squashfs-sysupgrade.img.gz ./artifact/
+        cp openwrt/bin/targets/x86/64/*combined-squashfs.img.gz ./artifact/
         cd openwrt
         cd ..
         zip -r artifact.zip ./artifact/
-        release_tag="R2S-GC404-$(date +%Y-%m-%d)"
+        release_tag="X86-GC404-$(date +%Y-%m-%d)"
         echo "##[set-output name=release_tag;]$release_tag"
     - name: Upload Artifact
       uses: actions/upload-artifact@main
