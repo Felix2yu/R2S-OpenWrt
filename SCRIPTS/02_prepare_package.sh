@@ -2,7 +2,7 @@
 clear
 
 #凑合解决方案
-wget -qO - https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/3875.patch | patch -p1
+#wget -qO - https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/3875.patch | patch -p1
 
 #使用O2级别的优化
 sed -i 's/Os/O2/g' include/target.mk
@@ -16,7 +16,7 @@ sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
 ##必要的patch
-wget -P target/linux/generic/pending-5.4 https://github.com/immortalwrt/immortalwrt/raw/master/target/linux/generic/pending-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
+wget -P target/linux/generic/pending-5.4 https://github.com/immortalwrt/immortalwrt/raw/master/target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
 #luci network
 #patch -p1 < ../PATCH/new/main/luci_network-add-packet-steering.patch
 #patch jsonc
@@ -54,14 +54,14 @@ cp -f ../PATCH/duplicate/shortcut-fe ./package/base-files/files/etc/init.d
 ##获取额外package
 #（不用注释这里的任何东西，这不会对提升action的执行速度起到多大的帮助
 #（不需要的包直接修改seed就好
-#Ruby
-patch -p1 < ../PATCH/new/package/ruby.patch
 #luci-app-compressed-memory
-wget -O- https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/2840.patch | patch -p1
+#wget -O- https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/2840.patch | patch -p1
+wget -O- https://github.com/NoTengoBattery/openwrt/commit/40f1d5.patch | patch -p1
+wget -O- https://github.com/NoTengoBattery/openwrt/commit/a83a0b.patch | patch -p1
+wget -O- https://github.com/NoTengoBattery/openwrt/commit/6d5fb4.patch | patch -p1
 mkdir ./package/new
 cp -rf ../NoTengoBattery/feeds/luci/applications/luci-app-compressed-memory ./package/new/luci-app-compressed-memory
 sed -i 's,include ../..,include $(TOPDIR)/feeds/luci,g' ./package/new/luci-app-compressed-memory/Makefile
-rm -rf ./package/system/compressed-memory
 cp -rf ../NoTengoBattery/package/system/compressed-memory ./package/system/compressed-memory
 #R8168
 svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/ctcgfw/r8168 package/new/r8168
