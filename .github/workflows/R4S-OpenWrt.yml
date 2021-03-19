@@ -1,10 +1,8 @@
-name: R2S-OpenWrt
+name: R4S-OpenWrt
 
 on:
   schedule:
-    - cron: 5 10 * * *
-  push:
-    branches: [ master ]
+    - cron: 5 6 * * 0
   watch:
     types: started
 
@@ -51,8 +49,8 @@ jobs:
         df -h
     - name: Prepare Mixedwrt
       run: |
-        sudo chown -R runner:runner /home/runner/work/R2S-OpenWrt
-        cp -r ./SCRIPTS/R2S/. ./SCRIPTS/
+        sudo chown -R runner:runner /home/runner/work/R2S-R4S-X86-OpenWrt
+        cp -r ./SCRIPTS/R4S/. ./SCRIPTS/
         cp -r ./SCRIPTS/. ./
         /bin/bash 01_get_ready.sh
     - name: Prepare Package
@@ -72,7 +70,7 @@ jobs:
     - name: Make Config
       run: |
         cd openwrt
-        mv ../SEED/R2S/config.seed .config
+        mv ../SEED/R4S/config.seed .config
         make defconfig
 
     - name: Smart chmod
@@ -124,9 +122,9 @@ jobs:
         gzip -d *.gz && exit 0
         gzip --best *.img
         ls -Ahl
-        sha256sum openwrt*r2s* | tee R2S-GC404-$(date +%Y-%m-%d)-21.02.sha256sum
-        zip R2S-GC404-$(date +%Y-%m-%d)-21.02-ext4.zip *r2s*ext4*
-        zip R2S-GC404-$(date +%Y-%m-%d)-21.02-sfs.zip *r2s*squashfs*
+        sha256sum openwrt*r4s* | tee R4S-GC404-$(date +%Y-%m-%d)-21.02.sha256sum
+        zip R4S-GC404-$(date +%Y-%m-%d)-21.02-ext4.zip *r4s*ext4*
+        zip R4S-GC404-$(date +%Y-%m-%d)-21.02-sfs.zip *r4s*squashfs*
         ls -Ahl
     - name: Upload artifact
       uses: actions/upload-artifact@main
