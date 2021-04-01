@@ -56,7 +56,8 @@ cp -f ../PATCH/duplicate/shortcut-fe ./package/base-files/files/etc/init.d
 
 ### 获取额外的基础软件包 ###
 # AutoCore
-svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/lean/autocore package/lean/autocore
+#svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/lean/autocore package/lean/autocore
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/autocore package/lean/autocore
 rm -rf ./feeds/packages/utils/coremark
 svn co https://github.com/immortalwrt/packages/trunk/utils/coremark feeds/packages/utils/coremark
 # 更换 Nodejs 版本
@@ -126,7 +127,7 @@ cp -rf ../NoTengoBattery/package/system/compressed-memory ./package/system/compr
 # CPU 控制相关
 svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/lean/luci-app-cpufreq package/lean/luci-app-cpufreq
 cp -rf ../PATCH/duplicate/luci-app-cpulimit ./package/lean/luci-app-cpulimit
-svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/ntlf9t/cpulimit package/lean/cpulimit
+svn co https://github.com/immortalwrt/packages/trunk/utils/cpulimit package/lean/cpulimit
 # 动态DNS
 #rm -rf ./feeds/packages/net/ddns-scripts
 #rm -rf ./feeds/luci/applications/luci-app-ddns
