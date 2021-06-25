@@ -29,15 +29,19 @@ dns:
   refuse_any: true
   upstream_dns:
   - 127.0.0.1:6052
+  - '[/awsglobalaccelerator.com/]127.0.0.1:6050'
   upstream_dns_file: ""
   bootstrap_dns:
   - 127.0.0.1:6052
-  all_servers: true
-  fastest_addr: false
+  all_servers: false
+  fastest_addr: true
   allowed_clients: []
   disallowed_clients: []
-  blocked_hosts: []
-  cache_size: 4194304
+  blocked_hosts:
+  - version.bind
+  - id.server
+  - hostname.bind
+  cache_size: 0
   cache_ttl_min: 0
   cache_ttl_max: 0
   bogus_nxdomain: []
@@ -51,11 +55,16 @@ dns:
   parental_enabled: false
   safesearch_enabled: false
   safebrowsing_enabled: false
-  safebrowsing_cache_size: 1048576
-  safesearch_cache_size: 1048576
-  parental_cache_size: 1048576
   cache_time: 30
-  rewrites: []
+  rewrites:
+  - domain: wifi.weixin.qq.com
+    answer: 127.0.0.1
+  - domain: clock.redhat.com
+    answer: cn.ntp.org.cn
+  - domain: clock.cuhk.edu.hk
+    answer: cn.ntp.org.cn
+  - domain: https://www.meituan.com
+    answer: www.meituan.com
   blocked_services: []
 tls:
   enabled: false
@@ -80,11 +89,11 @@ filters:
   name: Peter Lowe's List
   id: 1595502661
 - enabled: true
-  url: https://raw.githubusercontent.com/hoshsadiq/adblock-nocoin-list/master/nocoin.txt
+  url: https://cdn.jsdelivr.net/gh/hoshsadiq/adblock-nocoin-list@master/nocoin.txt
   name: NoCoin Filter List
   id: 1595502662
 - enabled: true
-  url: https://gitee.com/xinggsf/Adblock-Rule/raw/master/rule.txt
+  url: https://cdn.jsdelivr.net/gh/xinggsf/Adblock-Plus-Rule@master/rule.txt
   name: 乘风 广告过滤规则
   id: 1600600707
 - enabled: true
@@ -92,11 +101,11 @@ filters:
   name: 乘风 视频广告过滤规则
   id: 1600600708
 - enabled: true
-  url: https://gitee.com/cjx82630/cjxlist/raw/master/cjx-ublock.txt
+  url: https://cdn.jsdelivr.net/gh/cjx82630/cjxlist@master/cjx-ublock.txt
   name: CJX's uBlock list
   id: 1600600709
 - enabled: true
-  url: https://gitee.com/cjx82630/cjxlist/raw/master/cjx-annoyance.txt
+  url: https://cdn.jsdelivr.net/gh/cjx82630/cjxlist@master/cjx-annoyance.txt
   name: CJX's Annoyance List
   id: 1600600710
 - enabled: true
