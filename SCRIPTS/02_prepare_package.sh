@@ -156,7 +156,7 @@ ln -sf ../../../feeds/luci/applications/luci-app-aliddns ./package/feeds/luci/lu
 # Docker 容器（会导致 OpenWrt 出现 UDP 转发问题，慎用）
 sed -i 's/+docker/+docker \\\n\t+dockerd/g' ./feeds/luci/applications/luci-app-dockerman/Makefile
 # Dnsfilter
-git clone -b master --depth 1 https://github.com/garypang13/luci-app-dnsfilter.git package/new/luci-app-dnsfilter
+git clone --depth 1 https://github.com/garypang13/luci-app-dnsfilter.git package/new/luci-app-dnsfilter
 # Dnsproxy
 svn co https://github.com/immortalwrt/packages/trunk/net/dnsproxy feeds/packages/net/dnsproxy
 ln -sf ../../../feeds/packages/net/dnsproxy ./package/feeds/packages/dnsproxy
@@ -342,6 +342,7 @@ svn co https://github.com/QiuSimons/OpenWrt-Add/trunk/addition-trans-zh package/
 mkdir package/base-files/files/usr/bin
 wget -P package/base-files/files/usr/bin/ https://github.com/QiuSimons/OpenWrt-Add/raw/master/fuck
 wget -P package/base-files/files/usr/bin/ https://github.com/QiuSimons/OpenWrt-Add/raw/master/chinadnslist
+wget -P package/base-files/files/usr/bin/ https://github.com/QiuSimons/OpenWrt-Add/raw/master/setdns
 # 最大连接数
 sed -i 's/16384/65535/g' package/kernel/linux/files/sysctl-nf-conntrack.conf
 # 生成默认配置及缓存
